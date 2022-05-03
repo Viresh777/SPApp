@@ -8,11 +8,11 @@
   },
   "NFT_NAME": "STAR PUNKS NFT",
   "SYMBOL": "STARPUNKS",
-  "MAX_SUPPLY": 5555,
+  "MAX_SUPPLY": 4444,
   "WEI_COST": "0010000000000000000",
   "DISPLAY_COST": 0.01,
   "GAS_LIMIT": 285000,
   "MARKETPLACE": "Opeansea",
-  "MARKETPLACE_LINK": "https://opensea.io/collection/the-stripes-nft",
+  "MARKETPLACE_LINK": "https://testnets.opensea.io/collection/starpunks-zfs6vqcmo7",
   "SHOW_BACKGROUND": false
 }
