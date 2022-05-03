@@ -60,12 +60,8 @@ export const ResponsiveWrapper = styled.div`
 `;
 
 export const StyledLogo = styled.img`
-  width: 200px;
-  @media (min-width: 767px) {
-    width: 300px;
-  }
-  transition: width 0.5s;
-  transition: height 0.5s;
+  width:28px; 
+  height:28px;
 `;
 
 export const StyledImg = styled.img`
@@ -93,7 +89,7 @@ function App() {
   const blockchain = useSelector((state) => state.blockchain);
   const data = useSelector((state) => state.data);
   const [claimingNft, setClaimingNft] = useState(false);
-  const [feedback, setFeedback] = useState(`Click buy to mint your NFT.`);
+  const [feedback, setFeedback] = useState(`Click mint to mint your NFT.`);
   const [mintAmount, setMintAmount] = useState(1);
   const [CONFIG, SET_CONFIG] = useState({
     CONTRACT_ADDRESS: "",
@@ -111,6 +107,7 @@ function App() {
     GAS_LIMIT: 0,
     MARKETPLACE: "",
     MARKETPLACE_LINK: "",
+    TWITTER_LINK: "",
     SHOW_BACKGROUND: false,
   });
   const crawlFull = useRef(false);
@@ -157,8 +154,8 @@ function App() {
 
   const incrementMintAmount = () => {
     let newMintAmount = mintAmount + 1;
-    if (newMintAmount > 50) {
-      newMintAmount = 50;
+    if (newMintAmount > 20) {
+      newMintAmount = 20;
     }
     setMintAmount(newMintAmount);
   };
@@ -253,19 +250,19 @@ function App() {
     };
 
     const moveCrawl = (distance) => {
-      if(crawlFull.current == false){
-      crawlPos -= distance;
-      crawlContentStyle.top = crawlPos + "px";
+      if (crawlFull.current == false) {
+        crawlPos -= distance;
+        crawlContentStyle.top = crawlPos + "px";
 
-      // if we've scrolled all content past the top edge
-      // of the plane, reposition content at bottom of plane
-      if(crawlPos <= 200.9488000000003){
-        crawlFull.current = true
+        // if we've scrolled all content past the top edge
+        // of the plane, reposition content at bottom of plane
+        if (crawlPos <= 200.9488000000003) {
+          crawlFull.current = true;
+        }
+        if (crawlPos < -crawlContent.clientHeight) {
+          crawlPos = crawl.clientHeight;
+        }
       }
-      if (crawlPos < -crawlContent.clientHeight) {
-        crawlPos = crawl.clientHeight;
-      }
-    }
     };
 
     const paintStars = () => {
@@ -303,7 +300,7 @@ function App() {
       moveStars(elapsed * 0.02);
 
       // time-scale of crawl, increase factor to go faster
-      moveCrawl(elapsed * 0.50);
+      moveCrawl(elapsed * 0.5);
 
       clear();
       paintStars();
@@ -539,28 +536,33 @@ function App() {
     // </s.Screen>
 
     <body>
+      <div class="topnav">
+   <a href={CONFIG.TWITTER_LINK}>
+   <StyledLogo alt={"logo"} src={"/config/images/twitter-logo.svg"} />
+   </a>
+   <a href={CONFIG.MARKETPLACE_LINK}>
+   <StyledLogo alt={"logo"} src={"/config/images/opensea-logo.svg"} />
+   </a>
+</div>
       <canvas id="canvas" class="stretch"></canvas>
       <div id="crawl-container" class="stretch">
         <div id="crawl">
           <div id="crawl-content">
-            <h1>STAR PUNKS NFTS</h1>
-            <h2></h2>
+            <h1>STAR PUNKS NFT</h1>
             <p>
               <s.Container flex={1} ai={"center"}>
-                <a href={CONFIG.MARKETPLACE_LINK}>
-                </a>
-                  <s.Container flex={2} jc={"center"} ai={"center"}>
-                    <s.TextTitle
-                      style={{
-                        textAlign: "center",
-                        fontSize: 120,
-                        fontWeight: "bold",
-                        color: "var(--accent-text)",
-                      }}
-                    >
-                      {data.totalSupply} / {CONFIG.MAX_SUPPLY}
-                    </s.TextTitle>
-                    <span
+                <s.Container flex={2} jc={"center"} ai={"center"}>
+                  <s.TextTitle
+                    style={{
+                      textAlign: "center",
+                      fontSize: 100,
+                      fontWeight: "bold",
+                      color: "var(--accent-text)",
+                    }}
+                  >
+                    {data.totalSupply} / {CONFIG.MAX_SUPPLY}
+                  </s.TextTitle>
+                  {/* <span
                       style={{
                         textAlign: "center",
                       }}
@@ -575,128 +577,134 @@ function App() {
                       >
                         {CONFIG.MARKETPLACE}
                       </StyledButton>
-                    </span>
-                    {Number(data.totalSupply) >= CONFIG.MAX_SUPPLY ? (
-                      <>
-                        <s.TextTitle
-                          style={{
-                            textAlign: "center",
-                            color: "var(--accent-text)",
-                          }}
-                        >
-                          The sale has ended.
-                        </s.TextTitle>
-                        <s.TextDescription
-                          style={{
-                            textAlign: "center",
-                            color: "var(--accent-text)",
-                          }}
-                        >
-                          You can still find {CONFIG.NFT_NAME} on
-                        </s.TextDescription>
-                        <StyledLink
-                          target={"_blank"}
-                          href={CONFIG.MARKETPLACE_LINK}
-                        >
-                          {CONFIG.MARKETPLACE}
-                        </StyledLink>
-                      </>
-                    ) : (
-                      <>
-                        <s.TextTitle
-                          style={{
-                            fontSize: 190,
-                            textAlign: "center",
-                            color: "var(--accent-text)",
-                          }}
-                        >
-                          {CONFIG.DISPLAY_COST} {CONFIG.NETWORK.SYMBOL}.
-                        </s.TextTitle>
-                        {blockchain.account === "" ||
-                        blockchain.smartContract === null ? (
-                          <s.Container ai={"center"} jc={"center"}>
-                            <s.SpacerSmall />
-                            <StyledButton
-                              onClick={(e) => {
-                                e.preventDefault();
-                                dispatch(connect());
-                                getData();
-                              }}
-                            >
-                              CONNECT
-                            </StyledButton>
-                            {blockchain.errorMsg !== "" ? (
-                              <>
-                                <s.SpacerSmall />
-                                <s.TextDescription
-                                  style={{
-                                    textAlign: "center",
-                                    color: "var(--accent-text)",
-                                  }}
-                                >
-                                  {blockchain.errorMsg}
-                                </s.TextDescription>
-                              </>
-                            ) : null}
-                          </s.Container>
-                        ) : (
-                          <>
-                            <s.TextDescription
-                              style={{
-                                fontSize:25,
-                                textAlign: "center",
-                                color: "var(--accent-text)",
-                              }}
-                            >
-                              {feedback}
-                            </s.TextDescription>
-                            <s.Container ai={"center"} jc={"center"} fd={"row"}>
-                              <StyledRoundButton
-                                style={{ lineHeight: 0.4 }}
-                                disabled={claimingNft ? 1 : 0}
-                                onClick={(e) => {
-                                  e.preventDefault();
-                                  decrementMintAmount();
-                                }}
-                              >
-                                -
-                              </StyledRoundButton>
+                    </span> */}
+                  {Number(data.totalSupply) >= CONFIG.MAX_SUPPLY ? (
+                    <>
+                      <s.TextTitle
+                        style={{
+                          fontSize: 100,
+                          textAlign: "center",
+                          color: "var(--accent-text)",
+                        }}
+                      >
+                        The sale has ended.
+                      </s.TextTitle>
+                      <s.TextDescription
+                        style={{
+                          fontSize: 100,
+                          textAlign: "center",
+                          color: "var(--accent-text)",
+                        }}
+                      >
+                        You can still find {CONFIG.NFT_NAME} on
+                      </s.TextDescription>
+                      <StyledButton
+                        style={{
+                          margin: "5px",
+                        }}
+                        onClick={(e) => {
+                          window.open(CONFIG.MARKETPLACE_LINK, "_blank");
+                        }}
+                      >
+                        {CONFIG.MARKETPLACE}
+                      </StyledButton>
+                    </>
+                  ) : (
+                    <>
+                      <s.TextTitle
+                        style={{
+                          fontSize: 100,
+                          textAlign: "center",
+                          color: "var(--accent-text)",
+                        }}
+                      >
+                        {CONFIG.DISPLAY_COST} {CONFIG.NETWORK.SYMBOL}.
+                      </s.TextTitle>
+                      {blockchain.account === "" ||
+                      blockchain.smartContract === null ? (
+                        <s.Container ai={"center"} jc={"center"}>
+                          <s.SpacerSmall />
+                          <StyledButton
+                            onClick={(e) => {
+                              e.preventDefault();
+                              dispatch(connect());
+                              getData();
+                            }}
+                          >
+                            CONNECT
+                          </StyledButton>
+                          {blockchain.errorMsg !== "" ? (
+                            <>
+                              <s.SpacerSmall />
                               <s.TextDescription
                                 style={{
-                                  fontSize:25,
                                   textAlign: "center",
                                   color: "var(--accent-text)",
                                 }}
                               >
-                                {mintAmount}
+                                {blockchain.errorMsg}
                               </s.TextDescription>
-                              <StyledRoundButton
-                                disabled={claimingNft ? 1 : 0}
-                                onClick={(e) => {
-                                  e.preventDefault();
-                                  incrementMintAmount();
-                                }}
-                              >
-                                +
-                              </StyledRoundButton>
-                            </s.Container>
-                            <s.Container ai={"center"} jc={"center"} fd={"row"}>
-                              <StyledButton
-                                disabled={claimingNft ? 1 : 0}
-                                onClick={(e) => {
-                                  e.preventDefault();
-                                  claimNFTs();
-                                  getData();
-                                }}
-                              >
-                                {claimingNft ? "BUSY" : "BUY"}
-                              </StyledButton>
-                            </s.Container>
-                          </>
-                        )}
-                      </>
-                    )}
-                  </s.Container>
+                            </>
+                          ) : null}
+                        </s.Container>
+                      ) : (
+                        <>
+                          <s.TextDescription
+                            style={{
+                              fontSize: 25,
+                              textAlign: "center",
+                              color: "var(--accent-text)",
+                            }}
+                          >
+                            {feedback}
+                          </s.TextDescription>
+                          <s.Container ai={"center"} jc={"center"} fd={"row"}>
+                            <StyledRoundButton
+                              style={{ lineHeight: 0.4 }}
+                              disabled={claimingNft ? 1 : 0}
+                              onClick={(e) => {
+                                e.preventDefault();
+                                decrementMintAmount();
+                              }}
+                            >
+                              -
+                            </StyledRoundButton>
+                            <s.TextDescription
+                              style={{
+                                fontSize: 25,
+                                textAlign: "center",
+                                color: "var(--accent-text)",
+                              }}
+                            >
+                              {mintAmount}
+                            </s.TextDescription>
+                            <StyledRoundButton
+                              disabled={claimingNft ? 1 : 0}
+                              onClick={(e) => {
+                                e.preventDefault();
+                                incrementMintAmount();
+                              }}
+                            >
+                              +
+                            </StyledRoundButton>
+                          </s.Container>
+                          <s.Container ai={"center"} jc={"center"} fd={"row"}>
+                            <StyledButton
+                              disabled={claimingNft ? 1 : 0}
+                              onClick={(e) => {
+                                e.preventDefault();
+                                claimNFTs();
+                                getData();
+                              }}
+                            >
+                              {claimingNft ? "BUSY" : "MINT"}
+                            </StyledButton>
+                          </s.Container>
+                        </>
+                      )}
+                    </>
+                  )}
+                </s.Container>
               </s.Container>
             </p>
           </div>
