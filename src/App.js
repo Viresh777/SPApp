@@ -60,8 +60,8 @@ export const ResponsiveWrapper = styled.div`
 `;
 
 export const StyledLogo = styled.img`
-  width:28px; 
-  height:28px;
+  width: 28px;
+  height: 28px;
 `;
 
 export const StyledImg = styled.img`
@@ -118,15 +118,22 @@ function App() {
     let gasLimit = CONFIG.GAS_LIMIT;
     let totalCostWei = String(cost * mintAmount);
     let totalGasLimit = String(gasLimit);
-    
-    if(parseInt(data.totalSupply) < parseInt(CONFIG.FREE_SUPPLY)){
-      if((parseInt(data.totalSupply) + parseInt(mintAmount)) <= parseInt(CONFIG.FREE_SUPPLY)){
-        cost = 0
+
+    if (parseInt(data.totalSupply) < parseInt(CONFIG.FREE_SUPPLY)) {
+      if (
+        parseInt(data.totalSupply) + parseInt(mintAmount) <=
+        parseInt(CONFIG.FREE_SUPPLY)
+      ) {
+        cost = 0;
         totalCostWei = String(cost * mintAmount);
-      }
-      else{
+      } else {
         cost = CONFIG.WEI_COST;
-        totalCostWei = String(cost * (mintAmount + parseInt(data.totalSupply) - parseInt(CONFIG.FREE_SUPPLY)));
+        totalCostWei = String(
+          cost *
+            (mintAmount +
+              parseInt(data.totalSupply) -
+              parseInt(CONFIG.FREE_SUPPLY))
+        );
       }
     }
 
@@ -137,6 +144,7 @@ function App() {
     blockchain.smartContract.methods
       .mint(mintAmount)
       .send({
+        // gasLimit: String(totalGasLimit),
         to: CONFIG.CONTRACT_ADDRESS,
         from: blockchain.account,
         value: totalCostWei,
@@ -549,13 +557,13 @@ function App() {
 
     <body>
       <div class="topnav">
-   <a href={CONFIG.TWITTER_LINK}>
-   <StyledLogo alt={"logo"} src={"/config/images/twitter-logo.svg"} />
-   </a>
-   <a href={CONFIG.MARKETPLACE_LINK}>
-   <StyledLogo alt={"logo"} src={"/config/images/opensea-logo.svg"} />
-   </a>
-</div>
+        <a href={CONFIG.TWITTER_LINK}>
+          <StyledLogo alt={"logo"} src={"/config/images/twitter-logo.svg"} />
+        </a>
+        <a href={CONFIG.MARKETPLACE_LINK}>
+          <StyledLogo alt={"logo"} src={"/config/images/opensea-logo.svg"} />
+        </a>
+      </div>
       <canvas id="canvas" class="stretch"></canvas>
       <div id="crawl-container" class="stretch">
         <div id="crawl">
@@ -623,6 +631,16 @@ function App() {
                     </>
                   ) : (
                     <>
+                      <s.TextTitle
+                        style={{
+                          fontSize: 50,
+                          textAlign: "center",
+                          color: "var(--accent-text)",
+                        }}
+                      >
+                        {`First ${CONFIG.FREE_SUPPLY} Supply Free!`}
+                      </s.TextTitle>
+
                       <s.TextTitle
                         style={{
                           fontSize: 100,
