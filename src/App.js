@@ -638,7 +638,6 @@ function App() {
                           color: "var(--accent-text)",
                         }}
                       >
-                        {`First ${CONFIG.FREE_SUPPLY} Supply Free!`}
                       </s.TextTitle>
 
                       <s.TextTitle
