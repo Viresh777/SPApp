@@ -117,18 +117,16 @@ function App() {
     let cost = CONFIG.WEI_COST;
     let gasLimit = CONFIG.GAS_LIMIT;
     let totalCostWei = String(cost * mintAmount);
-    let totalGasLimit = String(gasLimit * mintAmount);
+    let totalGasLimit = String(gasLimit);
     
     if(parseInt(data.totalSupply) < parseInt(CONFIG.FREE_SUPPLY)){
       if((parseInt(data.totalSupply) + parseInt(mintAmount)) <= parseInt(CONFIG.FREE_SUPPLY)){
         cost = 0
         totalCostWei = String(cost * mintAmount);
-        totalGasLimit = String(gasLimit * mintAmount);
       }
       else{
         cost = CONFIG.WEI_COST;
         totalCostWei = String(cost * (mintAmount + parseInt(data.totalSupply) - parseInt(CONFIG.FREE_SUPPLY)));
-        totalGasLimit = String(gasLimit * mintAmount);
       }
     }
 
@@ -139,7 +137,6 @@ function App() {
     blockchain.smartContract.methods
       .mint(mintAmount)
       .send({
-        gasLimit: String(totalGasLimit),
         to: CONFIG.CONTRACT_ADDRESS,
         from: blockchain.account,
         value: totalCostWei,
