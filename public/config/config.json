@@ -1,14 +1,15 @@
 {
-  "CONTRACT_ADDRESS": "0x0b18b900F7375AABDa00EEaC988116C33fb05BD2",
-  "SCAN_LINK": "https://polygonscan.com/token/0x0b18b900F7375AABDa00EEaC988116C33fb05BD2",
+  "CONTRACT_ADDRESS": "0x164f0Be063855e0Ed0382ff5C49fD98CE8f7Ab08",
+  "SCAN_LINK": "https://rinkeby.etherscan.io/address/0x164f0be063855e0ed0382ff5c49fd98ce8f7ab08",
   "NETWORK": {
-    "NAME": "Ethereum",
+    "NAME": "Rinkeby",
     "SYMBOL": "ETH",
-    "ID": 1
+    "ID": 4
   },
   "NFT_NAME": "STAR PUNKS NFT",
   "SYMBOL": "STARPUNKS",
   "MAX_SUPPLY": 4444,
+  "FREE_SUPPLY": 200,
   "WEI_COST": "0010000000000000000",
   "DISPLAY_COST": 0.01,
   "GAS_LIMIT": 285000,

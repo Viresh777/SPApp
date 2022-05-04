@@ -109,20 +109,25 @@ function App() {
     MARKETPLACE_LINK: "",
     TWITTER_LINK: "",
     SHOW_BACKGROUND: false,
+    FREE_SUPPLY: 1,
   });
   const crawlFull = useRef(false);
 
   const claimNFTs = () => {
     let cost = CONFIG.WEI_COST;
+    if(data.totalSupply < CONFIG.FREE_SUPPLY){
+      cost = 0
+    }
     let gasLimit = CONFIG.GAS_LIMIT;
     let totalCostWei = String(cost * mintAmount);
     let totalGasLimit = String(gasLimit * mintAmount);
+
     console.log("Cost: ", totalCostWei);
     console.log("Gas limit: ", totalGasLimit);
     setFeedback(`Minting your ${CONFIG.NFT_NAME}...`);
     setClaimingNft(true);
     blockchain.smartContract.methods
-      .mint(blockchain.account, mintAmount)
+      .mint(mintAmount)
       .send({
         gasLimit: String(totalGasLimit),
         to: CONFIG.CONTRACT_ADDRESS,
@@ -137,7 +142,7 @@ function App() {
       .then((receipt) => {
         console.log(receipt);
         setFeedback(
-          `WOW, the ${CONFIG.NFT_NAME} is yours! go visit Opensea.io to view it.`
+          `${CONFIG.NFT_NAME} is yours! visit Opensea.io to view it.`
         );
         setClaimingNft(false);
         dispatch(fetchData(blockchain.account));
