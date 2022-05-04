@@ -115,12 +115,22 @@ function App() {
 
   const claimNFTs = () => {
     let cost = CONFIG.WEI_COST;
-    if(data.totalSupply < CONFIG.FREE_SUPPLY){
-      cost = 0
-    }
     let gasLimit = CONFIG.GAS_LIMIT;
     let totalCostWei = String(cost * mintAmount);
     let totalGasLimit = String(gasLimit * mintAmount);
+    
+    if(parseInt(data.totalSupply) < parseInt(CONFIG.FREE_SUPPLY)){
+      if((parseInt(data.totalSupply) + parseInt(mintAmount)) <= parseInt(CONFIG.FREE_SUPPLY)){
+        cost = 0
+        totalCostWei = String(cost * mintAmount);
+        totalGasLimit = String(gasLimit * mintAmount);
+      }
+      else{
+        cost = CONFIG.WEI_COST;
+        totalCostWei = String(cost * (mintAmount + parseInt(data.totalSupply) - parseInt(CONFIG.FREE_SUPPLY)));
+        totalGasLimit = String(gasLimit * mintAmount);
+      }
+    }
 
     console.log("Cost: ", totalCostWei);
     console.log("Gas limit: ", totalGasLimit);
@@ -136,7 +146,7 @@ function App() {
       })
       .once("error", (err) => {
         console.log(err);
-        setFeedback("Sorry, something went wrong please try again later.");
+        setFeedback("Sorry, something went wrong please try again.");
         setClaimingNft(false);
       })
       .then((receipt) => {
@@ -553,7 +563,7 @@ function App() {
       <div id="crawl-container" class="stretch">
         <div id="crawl">
           <div id="crawl-content">
-            <h1>STAR PUNKS NFT</h1>
+            <h1>STAR PUNKS</h1>
             <p>
               <s.Container flex={1} ai={"center"}>
                 <s.Container flex={2} jc={"center"} ai={"center"}>

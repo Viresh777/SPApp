@@ -1,10 +1,10 @@
 {
-  "CONTRACT_ADDRESS": "0x164f0Be063855e0Ed0382ff5C49fD98CE8f7Ab08",
-  "SCAN_LINK": "https://rinkeby.etherscan.io/address/0x164f0be063855e0ed0382ff5c49fd98ce8f7ab08",
+  "CONTRACT_ADDRESS": "0x97D951B0259985d0179919B2200d3Ab283Be91f9",
+  "SCAN_LINK": "https://etherscan.io/address/0x97d951b0259985d0179919b2200d3ab283be91f9",
   "NETWORK": {
-    "NAME": "Rinkeby",
+    "NAME": "Mainet",
     "SYMBOL": "ETH",
-    "ID": 4
+    "ID": 1
   },
   "NFT_NAME": "STAR PUNKS NFT",
   "SYMBOL": "STARPUNKS",
@@ -14,7 +14,7 @@
   "DISPLAY_COST": 0.01,
   "GAS_LIMIT": 285000,
   "MARKETPLACE": "Opeansea",
-  "MARKETPLACE_LINK": "https://testnets.opensea.io/collection/starpunks-zfs6vqcmo7",
+  "MARKETPLACE_LINK": "https://opensea.io/collection/starpunks-nft",
   "TWITTER_LINK": "https://twitter.com/StarPunksNFT",
   "SHOW_BACKGROUND": false
 }
