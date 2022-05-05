@@ -647,7 +647,7 @@ function App() {
                           color: "var(--accent-text)",
                         }}
                       >
-                        {CONFIG.DISPLAY_COST} {CONFIG.NETWORK.SYMBOL}.
+                        {CONFIG.DISPLAY_COST}
                       </s.TextTitle>
                       {blockchain.account === "" ||
                       blockchain.smartContract === null ? (
